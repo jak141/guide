@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
-import pymysql
-
-pymysql.install_as_MySQLdb()
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -89,13 +85,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #}
 
 DATABASES = {
-    'default': {
+       'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'guide', # DB명
-        'USER': 'jak141', # 데이터베이스 계정
-        'PASSWORD': '1q2w3e4r!', # 계정 비밀번호
-        'HOST': 'jak141.mysql.pythonanywhere-services.com', # 데이테베이스 주소(IP)
-        'PORT': '3306', # 데이터베이스 포트(보통은 3306)
+        'NAME': 'jak141$guide',
+        'USER': 'jak141',
+        'PASSWORD': '1q2w3e4r!',
+        'HOST': 'jak141.mysql.pythonanywhere-services.com',
     }
 }
 
