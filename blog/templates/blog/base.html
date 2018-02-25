@@ -1,0 +1,27 @@
+{% load static %}
+<html>
+    <head>
+        <title>Drango Test blog</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Indie+Flower|Nanum+Brush+Script|Nanum+Gothic" rel="stylesheet">
+    </head>
+    <body>
+        <div class="page-header">
+          <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+          <h1><a href="{% url 'post_list' %}">Drango Coin!</a></h1>
+        </div>
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                  {% block content %}
+                  {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <div id="floatdiv"><a class="twitter-timeline" data-width="300" data-height="600" href="https://twitter.com/whatst_durango?ref_src=twsrc%5Etfw">Tweets by whatst_durango</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+    </body>
+</html>
