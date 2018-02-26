@@ -6,3 +6,10 @@ def Index(request):
 
 def Test(request):
     return render(request, 'gazua/test.html')
+
+def Login(request):
+    return render(request, 'gazua/login.html', {})
+
+def Register(request):
+    return render(request, 'gazua/register.html', {})
+    
