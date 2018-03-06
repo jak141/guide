@@ -12,4 +12,7 @@ def Login(request):
 
 def Register(request):
     return render(request, 'gazua/register.html', {})
+
+def Guide_Write(request):
+    return render(request, 'gazua/guide_write.html',{})
     
