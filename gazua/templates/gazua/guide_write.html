@@ -10,9 +10,67 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+
+
+        <!-- 요밑부분이 구글맵 긁어오는 것과 함수구현부 -->
+        <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript">
+        var map, watchId;
+        function startWatchPosition() {
+        //위치 정보 확인 시작
+        watchId = navigator.geolocation.watchPosition(
+        function(position) {
+        //확인한 위치 정보를 지도의 중심으로 함
+        var coords = position.coords;
+        //지도의 중심 좌표 작성
+        var mapCenter =
+        new google.maps.LatLng(coords.latitude, coords.longitude);
+        if(!map) {
+        //지도 초기화
+        map = new google.maps.Map(document.getElementById("map"), {
+        center: mapCenter,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoom: 14
+        });
+        }
+        // 관심 장소(Map Marker) 제목 만들기
+        var time = new Date();
+        time.setTime(position.timestamp);
+        var title = time.getHours() + "시" +
+        time.getMinutes() + "분" +
+        time.getSeconds() + "초의 위치 정보";
+      
+        //지도에 마커를 표시
+        var marker = new google.maps.Marker({
+        position: mapCenter,
+        title: title,
+        map: map
+        });
+        //지도의 중심을 이동
+        map.setCenter(mapCenter);
+        }, onPositionError, {enableHighAccuracy: true});
+        var buttons = document.getElementsByTagName("button");
+        buttons[0].disabled = true, buttons[1].disabled = false;
+        }
+      
+        function stopWatchPosition() {
+        // 위치 정보 확인을 중지
+        navigator.geolocation.clearWatch(watchId);
+        var buttons = document.getElementsByTagName("button");
+        buttons[0].disabled = false, buttons[1].disabled = true;
+        alert("위치 정보 확인이 중지돠었습니다.");
+        }
+        
+        function onPositionError(error) {
+        alert("위치 정보를 확인할 수 없습니다:" + error.message);
+        }
+    </script>
+
+
     </head>
 
-    <body>
+    <body onload="startWatchPosition()">
     <!-- MultiStep Form -->
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -35,7 +93,7 @@
                     <input type="button" name="next" class="next action-button" value="Next"/>
                 </fieldset>
                 <fieldset>
-                    <h2 class="fs-title">연락 가능한 수단</h2>
+                    <h2 class="fs-title">연락 수단</h2>
                     <h3 class="fs-subtitle">참여자로부터 연락받을 수단을 입력하세요.</h3>
                     <!-- 리스트 드롭식으로 유형 선택후
                         해당사항에 대해 작성하기 -->
@@ -48,10 +106,10 @@
                 <fieldset>
                     <h2 class="fs-title">제한 인원</h2>
                     <h3 class="fs-subtitle">가이드의 제한 인원을 알려주세요.</h3>
+
                     <!-- 리스트 드롭식으로 인원 수 설정하기-->
-                    <input type="text" name="twitter" placeholder="Twitter"/>
-                    <input type="text" name="facebook" placeholder="Facebook"/>
-                    <input type="text" name="gplus" placeholder="Google Plus"/>
+                    <input type="text" name="limit" placeholder="제한 인원을 설정하세요"/>
+
                     <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                     <input type="button" name="next" class="next action-button" value="Next"/>
                 </fieldset>
@@ -69,9 +127,15 @@
                 <fieldset>
                     <h2 class="fs-title">위치 확인</h2>
                     <h3 class="fs-subtitle">지도의 위치가 맞는지 확인해주세요.</h3>
-                    <input type="text" name="email" placeholder="Email"/>
-                    <input type="password" name="pass" placeholder="Password"/>
-                    <input type="password" name="cpass" placeholder="Confirm Password"/>
+
+                    <!--구글맵 추가부분 -->
+                    <div id="map" style="width:400px; height:400px">
+                    지도 초기화 중입니다. 잠시만 기다려 주십시오
+                    </div>
+                    <button onclick="startWatchPosition()" disabled>시작</button>
+                    <button onclick="stopWatchPosition()" disabled>정지</button>
+
+
                     <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                     <input type="submit" name="submit" class="submit action-button" value="Submit"/>
                 </fieldset>
